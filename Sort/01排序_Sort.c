@@ -16,7 +16,7 @@
 typedef int Status; 
 
 
-#define MAXSIZE 10000  /* 用于要排序数组个数最大值，可根据需要修改 */
+#define MAXSIZE 100  /* 用于要排序数组个数最大值，可根据需要修改 不要太大以避免OVERFLOW */
 typedef struct
 {
 	int r[MAXSIZE+1];	/* 用于存储要排序数组，r[0]用作哨兵或临时变量 */
