@@ -1,16 +1,14 @@
-#include <stdio.h>    
-#include <string.h>
-#include <ctype.h>      
-#include <stdlib.h>   
-#include <io.h>  
-#include <math.h>  
-#include <time.h>
+#include<iostream>
+ 
+
+
+
 
 #define OK 1
 #define ERROR 0
 #define TRUE 1
 #define FALSE 0
-
+#define succeed 0//非递归快速排序划分成功
 #define MAX_LENGTH_INSERT_SORT 7 /* 用于快速排序时判断是否选用插入排序阙值 */
 
 typedef int Status; 
@@ -29,6 +27,53 @@ void swap(SqList *L,int i,int j)
 	int temp=L->r[i]; 
 	L->r[i]=L->r[j]; 
 	L->r[j]=temp; 
+}
+
+/* 非递归快速排序优化算法 */
+int Partition2(SqList *L, int& low, int& high)
+{
+	int pivotkey;
+
+	int m = low + (high - low) / 2; /* 计算数组中间的元素的下标 */
+	if (L->r[low] > L->r[high])
+		swap(L, low, high);	/* 交换左端与右端数据，保证左端较小 */
+	if (L->r[m] > L->r[high])
+		swap(L, high, m);		/* 交换中间与右端数据，保证中间较小 */
+	if (L->r[m] > L->r[low])
+		swap(L, m, low);		/* 交换中间与左端数据，保证左端较小 */
+
+	pivotkey = L->r[low]; /* 用子表的第一个记录作枢轴记录 */
+	L->r[0] = pivotkey;  /* 将枢轴关键字备份到L->r[0] */
+	while (low < high) /*  从表的两端交替地向中间扫描 */
+	{
+		while (low < high&&L->r[high] >= pivotkey)
+			high--;
+		L->r[low] = L->r[high];
+		while (low < high&&L->r[low] <= pivotkey)
+			low++;
+		L->r[high] = L->r[low];
+	}
+	L->r[low] = L->r[0];
+	return low; /* 返回枢轴所在位置 */
+}
+
+/* 交换顺序表L中子表的记录，使枢轴记录到位，并返回其所在位置 */
+/* 此时在它之前(后)的记录均不大(小)于它。 */
+int Partition3(SqList *L, int& low, int& high)
+{
+	int pivotkey;
+
+	pivotkey = L->r[low]; /* 用子表的第一个记录作枢轴记录 */
+	while (low < high) /*  从表的两端交替地向中间扫描 */
+	{
+		while (low < high&&L->r[high] >= pivotkey)
+			high--;
+		swap(L, low, high);/* 将比枢轴记录小的记录交换到低端 */
+		while (low < high&&L->r[low] <= pivotkey)
+			low++;
+		swap(L, low, high);/* 将比枢轴记录大的记录交换到高端 */
+	}
+	return low; /* 返回枢轴所在位置 */
 }
 
 void print(SqList L)
@@ -269,6 +314,46 @@ void MergeSort2(SqList *L)
 	}
 }
 
+//非递归法
+Status QuickSort3(SqList*a)
+{
+	int length = a->length;
+	if (!a&&length <= 0)
+	{
+		return ERROR;
+	}
+
+	int low = 1, high = length ;//上下界
+	int low_new = 1, high_new = length;//新表上下界
+	int flag = OK;//划分是否成功
+	int mid = length / 2;//表中间位置
+	while (flag)
+	{
+		low = Partition3(a, low, high);
+		
+
+		if (low == mid - 1)//划分成功
+		{
+			flag = succeed;
+		}
+		else
+		{
+			if (low < mid - 1)
+			{
+				low_new = ++low;
+				high = high_new;
+			}
+			else
+			{
+				high_new = --high;
+				low = low_new;
+			}
+		}
+
+	}
+	return OK;
+}
+
 /* **************************************** */
 
 /* 快速排序******************************** */
@@ -342,6 +427,8 @@ int Partition1(SqList *L,int low,int high)
 	return low; /* 返回枢轴所在位置 */
 }
 
+
+
 void QSort1(SqList *L,int low,int high)
 { 
 	int pivot;
@@ -375,12 +462,12 @@ int main()
    int d[N]={50,10,90,30,70,40,80,60,20};
    /* int d[N]={9,8,7,6,5,4,3,2,1}; */
 
-   SqList l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+   SqList l0, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11;
    
    for(i=0;i<N;i++)
      l0.r[i+1]=d[i];
    l0.length=N;
-   l1=l2=l3=l4=l5=l6=l7=l8=l9=l10=l0;
+   l1=l2=l3=l4=l5=l6=l7=l8=l9=l10=l11=l0;
    printf("排序前:\n");
    print(l0);
 
@@ -428,7 +515,9 @@ int main()
    QuickSort1(&l10);
    print(l10);
 
-
+   printf("非递归快速排序:\n");
+   QuickSort3(&l11);
+   print(l11);
     /*大数据排序*/
 	/* 
 	srand(time(0));  
