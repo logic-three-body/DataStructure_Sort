@@ -1,5 +1,5 @@
 #include<iostream>
- 
+
 
 
 
@@ -34,13 +34,13 @@ int Partition2(SqList *L, int& low, int& high)
 {
 	int pivotkey;
 
-	int m = low + (high - low) / 2; /* 计算数组中间的元素的下标 */
-	if (L->r[low] > L->r[high])
-		swap(L, low, high);	/* 交换左端与右端数据，保证左端较小 */
-	if (L->r[m] > L->r[high])
-		swap(L, high, m);		/* 交换中间与右端数据，保证中间较小 */
-	if (L->r[m] > L->r[low])
-		swap(L, m, low);		/* 交换中间与左端数据，保证左端较小 */
+	//int m = low + (high - low) / 2; /* 计算数组中间的元素的下标 */
+	//if (L->r[low] > L->r[high])
+	//	swap(L, low, high);	/* 交换左端与右端数据，保证左端较小 */
+	//if (L->r[m] > L->r[high])
+	//	swap(L, high, m);		/* 交换中间与右端数据，保证中间较小 */
+	//if (L->r[m] > L->r[low])
+	//	swap(L, m, low);		/* 交换中间与左端数据，保证左端较小 */
 
 	pivotkey = L->r[low]; /* 用子表的第一个记录作枢轴记录 */
 	L->r[0] = pivotkey;  /* 将枢轴关键字备份到L->r[0] */
@@ -314,7 +314,7 @@ void MergeSort2(SqList *L)
 	}
 }
 
-//非递归法
+//非递归法，划分算法
 Status QuickSort3(SqList*a)
 {
 	int length = a->length;
@@ -329,7 +329,8 @@ Status QuickSort3(SqList*a)
 	int mid = length / 2;//表中间位置
 	while (flag)
 	{
-		low = Partition3(a, low, high);
+		low = Partition3(a, low, high);//OK
+		//low = Partition2(a, low, high);//NO
 		
 
 		if (low == mid - 1)//划分成功
@@ -446,6 +447,32 @@ void QSort1(SqList *L,int low,int high)
 		InsertSort(L);
 }
 
+void _QSort1_FOR_Iteration(int &LOW,int &HIGH,const int& PIV)
+{
+	HIGH = PIV - 1;
+}
+
+
+//继续改成迭代
+void QSort1_Iteration(SqList *L, int low, int high)
+{
+	int pivot;
+
+
+	while (low < high)
+	{
+		pivot = Partition1(L, low, high); /*  将L->r[low..high]一分为二，算出枢轴值pivot */
+		_QSort1_FOR_Iteration(low, high, pivot);
+		low = pivot + 1;
+	}
+	
+}
+
+void QuickSort1_Iteration_ACCESS(SqList *L)
+{
+	QSort1_Iteration(L, 1, L->length);
+}
+
 /* 对顺序表L作快速排序 */
 void QuickSort1(SqList *L)
 { 
@@ -462,12 +489,12 @@ int main()
    int d[N]={50,10,90,30,70,40,80,60,20};
    /* int d[N]={9,8,7,6,5,4,3,2,1}; */
 
-   SqList l0, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11;
+   SqList l0, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11,l12;
    
    for(i=0;i<N;i++)
      l0.r[i+1]=d[i];
    l0.length=N;
-   l1=l2=l3=l4=l5=l6=l7=l8=l9=l10=l11=l0;
+   l12 = l1 = l2 = l3 = l4 = l5 = l6 = l7 = l8 = l9 = l10 = l11 = l0;
    printf("排序前:\n");
    print(l0);
 
@@ -518,6 +545,10 @@ int main()
    printf("非递归快速排序:\n");
    QuickSort3(&l11);
    print(l11);
+
+   //printf("非递归快速排序优化:\n");
+   //QuickSort1_Iteration_ACCESS(&l12);
+   //print(l12);
     /*大数据排序*/
 	/* 
 	srand(time(0));  
