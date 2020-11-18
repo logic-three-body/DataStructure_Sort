@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList_Select Sort", "Lin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DoubleLink_Bubble Sort", "DoubleLink_Bubble Sort\DoubleLink_Bubble Sort.vcxproj", "{1D7D51B9-21BB-423B-AC19-9946AA62EF85}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneQsort", "StoneQsort\StoneQsort.vcxproj", "{799EBBAE-CC50-492E-8242-E375E1F5B781}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{1D7D51B9-21BB-423B-AC19-9946AA62EF85}.Release|x64.Build.0 = Release|x64
 		{1D7D51B9-21BB-423B-AC19-9946AA62EF85}.Release|x86.ActiveCfg = Release|Win32
 		{1D7D51B9-21BB-423B-AC19-9946AA62EF85}.Release|x86.Build.0 = Release|Win32
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Debug|x64.ActiveCfg = Debug|x64
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Debug|x64.Build.0 = Debug|x64
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Debug|x86.ActiveCfg = Debug|Win32
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Debug|x86.Build.0 = Debug|Win32
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Release|x64.ActiveCfg = Release|x64
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Release|x64.Build.0 = Release|x64
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Release|x86.ActiveCfg = Release|Win32
+		{799EBBAE-CC50-492E-8242-E375E1F5B781}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
