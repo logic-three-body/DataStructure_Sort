@@ -53,7 +53,7 @@ int Qpartion(ElemType r[], int low, int high, ElemType pivotkey)
 			return low;
 		}
 	}
-	std::cout << "Not find\n";
+	std::cout << "not find\n";
 	return -1;
 }
 
