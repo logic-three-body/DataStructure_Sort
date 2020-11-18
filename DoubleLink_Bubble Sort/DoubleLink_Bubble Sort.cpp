@@ -105,11 +105,22 @@ Status DuplexBubbleSort(DLinkList&L)
 				exchange = true;
 				DLinkList tmp = p->next;
 				p->next = tmp->next;//先将节点从链表摘下
-				tmp->next->pre = p;
-				tmp->next = p;//tmp插到节点*p前
-				p->pre->next = tmp;
-				tmp->pre = p->pre;
-				p->pre = tmp;
+				//TODO consider nullptr problem of last elem
+				if (!tmp->next)//若为最后elem
+				{
+					p->pre->next = tmp;
+					tmp->pre = p->pre;
+					p->next = tmp->next;
+					p->pre = tmp;
+				}
+				else
+				{
+					tmp->next->pre = p;
+					tmp->next = p;//tmp插到节点*p前
+					p->pre->next = tmp;
+					tmp->pre = p->pre;
+					p->pre = tmp;
+				}
 			}
 			else
 			{
@@ -127,11 +138,33 @@ Status DuplexBubbleSort(DLinkList&L)
 				exchange = true;
 				DLinkList tmp = p->pre;
 				p->pre = tmp->pre;//先将节点从链表摘下
-				tmp->pre->next = p;
-				tmp->pre = p;//tmp插到节点*p后
-				p->next->pre = tmp;
-				tmp->next = p->next;
-				p->next = tmp;
+				//TODO consider nullptr problem of last elem
+				if (!tmp->pre)//若为首个elem为空
+				{
+					p->next->pre = tmp;
+					tmp->next = p->next;
+					p->pre = tmp->pre;
+					p->next = tmp;
+					tmp->pre = p;
+				}
+				else
+				{
+					if (!p->next)
+					{
+						p->pre = tmp->pre;
+						tmp->pre = p;
+						tmp->next = p->next;
+						p->next = tmp;
+					}
+					else
+					{
+						tmp->pre->next = p;
+						tmp->pre = p;//tmp插到节点*p后
+						p->next->pre = tmp;
+						tmp->next = p->next;
+						p->next = tmp;
+					}
+				}
 			}
 			else
 			{
